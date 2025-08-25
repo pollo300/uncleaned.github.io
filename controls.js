@@ -1,6 +1,4 @@
-let camera = { x: WG_x, y: WG_y, zoom: 1, rotation: 0, dx: 0, dy: 0 };
-let mousePos = { x: 0, y: 0 ,old_x:0,old_y:0};
-let mouseClient = { x: 0, y: 0 };
+
 ////////////``````````````````````` ` ` `
 
 
@@ -12,6 +10,7 @@ window.addEventListener('DOMContentLoaded', function () {         // Disable rig
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    camera.zoom = (canvas.width+canvas.height)/camera.fov;
 });
 
 
@@ -59,8 +58,6 @@ canvas.addEventListener('mouseup', (e) => {
 });
 canvas.addEventListener('wheel', (e) => {
 })
-
-
 
 
 
@@ -118,9 +115,19 @@ function Camera() {
 
 
 let THEME = [];
-
 {
+    let sky1 = {
+        probability:6,
+        gr0:{c:'#a7dfffff'},
+        gr1:{c:'#85b8ffff'},
+        mode_l:"multiply",
+        gr2:{c:'rgba(255, 255, 255, 1)'},
+        gr3:{c:'#e4dcff18'},
+        snow:{c:'rgba(255, 255, 255, 0.22)'},
+    }
+    THEME.push(sky1)
     let defualt3 = {
+        probability:2,
         gr0:{c:'#000000'},
         gr1:{c:'#2b2b2b'},
         mode_l:"multiply",
@@ -130,6 +137,7 @@ let THEME = [];
     }
     THEME.push(defualt3)
     let defualt2 = {
+        probability:8,
         gr0:{c:'#d8d8d8'},
         gr1:{c:'#ffffff'},
         mode_l:"multiply",
@@ -138,7 +146,18 @@ let THEME = [];
         snow:{c:'rgba(57, 57, 57, 0.10)'},
     }
     THEME.push(defualt2)
+        let defualt = {
+        probability:8,
+        gr0:{c:'#d1d1d1'},
+        gr1:{c:'#ffffff'},
+        mode_l:"multiply",
+        gr2:{c:'#ffffff00'},
+        gr3:{c:'#787878'},
+        snow:{c:'rgba(151, 151, 151, 0.15)'},
+    }
+    THEME.push(defualt)
     let pinkgray = {
+        probability:2,
         gr0:{c:'#90738a'},
         gr1:{c:'#3a2e3a'},
         mode_l:"color",      //"screen"
@@ -148,6 +167,7 @@ let THEME = [];
     }
     THEME.push(pinkgray)
     let blood = {
+        probability:1,
         gr0:{c:'#391010'},
         gr1:{c:'#281602'},
         mode_l:"hard-light",      //"screen"
@@ -157,15 +177,17 @@ let THEME = [];
     }
     THEME.push(blood)
     let gray = {
+        probability:6,
         gr0:{c:'#606060'},
         gr1:{c:'#212121'},
         mode_l:"color",      //"screen"
         gr2:{c:'rgba(0, 0, 0, 0)'},
         gr3:{c:'#a8a8a8'},
-        snow:{c:'rgba(100, 100, 100, 0.56)'},
+        snow:{c:'rgba(100, 100, 100, 0.24)'},
     }
     THEME.push(gray)
     let desert = {
+        probability:3,
         gr0:{c:'#c0b47b'},
         gr1:{c:'#262b37'},
         mode_l:"color-dodge",      //"screen"
@@ -175,6 +197,7 @@ let THEME = [];
     }
     THEME.push(desert)
     let micro = {
+        probability:3,
         gr0:{c:'#b8cec4'},
         gr1:{c:'#ffffff'},
         mode_l:"hard-light",      //"screen"
@@ -184,6 +207,7 @@ let THEME = [];
     }
     THEME.push(micro)
     let snow = {
+        probability:7,
         gr0:{c:'#d4d7e0'},
         gr1:{c:'#9196a6'},
         mode_l:"overlay",
@@ -193,6 +217,7 @@ let THEME = [];
     }
     THEME.push(snow)
     let mint = {
+        probability:1,
         gr0:{c:'#4f987a'},
         gr1:{c:'#561e62'},
         mode_l:"overlay",
@@ -202,6 +227,7 @@ let THEME = [];
     }
     THEME.push(mint)
     let end = {
+        probability:1,
         gr0:{c:'#523855'},
         gr1:{c:'#28153a'},
         mode_l:"overlay",
@@ -211,6 +237,7 @@ let THEME = [];
     }
     THEME.push(end)
     let darkred = {
+        probability:1,
         gr0:{c:'#000000'},
         gr1:{c:'#370000'},
         mode_l:"multiply",
@@ -220,6 +247,7 @@ let THEME = [];
     }
     THEME.push(darkred)
     let rock = {
+        probability:2,
         gr0:{c:'#2f2920'},
         gr1:{c:'#392c20'},
         mode_l:"multiply",
@@ -229,6 +257,7 @@ let THEME = [];
     }
     THEME.push(rock)
     let grenn = {
+        probability:1,
         gr0:{c:'#3f5538'},
         gr1:{c:'#172916'},
         mode_l:"multiply",
@@ -238,6 +267,7 @@ let THEME = [];
     }
     THEME.push(grenn)
     let nether = {
+        probability:1,
         gr0:{c:'#2f0000'},
         gr1:{c:'#5a0000'},
         mode_l:"multiply",
@@ -247,6 +277,7 @@ let THEME = [];
     }
     THEME.push(nether)
     let abyss = {
+        probability:1,
         gr0:{c:'#0a124a'},
         gr1:{c:'#010026'},
         mode_l:"multiply",
@@ -255,16 +286,8 @@ let THEME = [];
         snow:{c:'rgba(81, 90, 110, 0.55)'},
     }
     THEME.push(abyss)
-    let defualt = {
-        gr0:{c:'#d1d1d1'},
-        gr1:{c:'#ffffff'},
-        mode_l:"multiply",
-        gr2:{c:'#ffffff00'},
-        gr3:{c:'#787878'},
-        snow:{c:'rgba(151, 151, 151, 0.35)'},
-    }
-    THEME.push(defualt)
     let space = {
+        probability:1,
         gr0:{c:'#000000'},
         gr1:{c:'#01003d'},
         mode_l:"multiply",
@@ -274,10 +297,7 @@ let THEME = [];
     }
     THEME.push(space)
 }
-
-THEME.sort((a,b) => 0.5 - Math.random())
-
-
+THEME.sort((a,b) => b.probability*Math.random() - a.probability*Math.random())
 DECORATIONS = [];
 DECORATIONS_L = [];
 function f_decoration(){
@@ -386,7 +406,7 @@ function MovePlayer() {
 
 
     if (BUTT_2.create.val3 > 0) { 
-        CreateBall(mousePos);
+        CreateBall();
     }
     if (BUTT_2.delete.val3 > 0) {
         let newAction = new Action_del(mousePos.x, mousePos.y);
@@ -432,7 +452,7 @@ function MovePlayer() {
     }
 
     if (BUTT_2.createNPC.val3 > 0) {
-        let c = GEN_NPC(GENERAT,mousePos.x, mousePos.y)
+        let c = GEN_NPC(mousePos.x, mousePos.y)
         SCALE(c,BUTT_1.size.val/8)
         F_act_setup_growth(c,0.1)
         console.log(c)
@@ -461,28 +481,20 @@ function MovePlayer() {
     if (BUTT_2.become.val3 > 0) {
         c_act = function (a) {
         THE_PLAYER = a
+        a.mouse = {x:a.pos.x,y:a.pos.y}
+        if (!THE_PLAYER.child) a.child = [];
 
         for (let i = 0; i < THE_PLAYER.child.length; i++) {
         const e = THE_PLAYER.child[i];
-        if (e.target) e.DIE()
-        }
-        }
+        if (e.target) e.DIE() // kill the ai
+
+        }}
         new Action_0(mousePos.old_x, mousePos.old_y, c_act);
     }
 }
 
 
-var Crat_Count = 0
-function Create_Count(funct,pos,func2 = function(){}){
-    Crat_Count += BUTT_1.count.val
-    if (Crat_Count < 1) return
-    let amount = Crat_Count
-    Crat_Count-=Math.trunc(Crat_Count)
-    let gr = func2()
-    for (let i = 0; i < amount; i++){
-        funct(pos,i,amount,gr)
-    }
-}
+
 function takecolor(){
     //*(Math.random()*2-1)
     let col = BUTT_1.color.val2.full_trasf(
@@ -499,20 +511,23 @@ function takecolor(){
     )
     return {color:col,bor_col:bor}
 }
-function CreateBall(pos) {
-    function monouse(){
-        let col = takecolor()
-        return col
-    }
-    Create_Count(BALL_mouse,pos,monouse)
-}
-function BALL_mouse(pos,i,j,data){
+
+var Crat_Count = 0
+function CreateBall() {
+    // PUTTING SOMETING HERE  old bug: shared color
+    //let col = takecolor()
+
+    Crat_Count += BUTT_1.count.val
+    if (Crat_Count < 0) return
+    let amount = Crat_Count
+    for (let i = 0; i < amount; i++){
+        Crat_Count -= 1
+    {
         let NB = {}
 
         /// Position and moviment
-        NB.pos = new Vec(pos.x,pos.y)
-        NB.pos_o = new Vec(pos.x,pos.y)
-        let v2 =
+        NB.pos = new Vec(mousePos.x,mousePos.y)
+        NB.pos_o = new Vec(mousePos.x,mousePos.y)
         NB.vel = new Vec(Math.random(),0)
         NB.vel._rotate(P2 * Math.random() * 4)
 
@@ -554,24 +569,39 @@ function BALL_mouse(pos,i,j,data){
         NB.team = BUTT_1.team.val == 0 ? BUTT_1.color.val.hue + BUTT_1.color.val.red + BUTT_1.color.val.blc : BUTT_1.team.ran*Math.random() + BUTT_1.team.val
 
         // drawing
-        NB.color = data.color.c
-        NB.bor_col = data.bor_col.c
+        let col = takecolor()
+        NB.color = col.color
+        NB.bor_col = col.bor_col
         Get_bor_s(NB)
         /////// drawing ++
         NB.DIE = DIE_2
-        NB.DIE_anim = DIE_anim0
+        NB.DIE_anim = DIE_anim01
 
         ////// actions
-        NB.arrays = [REPOS,KILLABLE,COLLI_BDMG]
-        Array_push(NB)
-
-        ////// "" conponents 
-        NB.child = []
-        new cl_body(NB)
+if (false) {
+            NB.arrays = [REPOS,KILLABLE,COLLI_BDMG]
+            NB.child = []
+            new cl_body(NB)
+} else {
+        NB.arrays = [REPOS,KILLABLE,COLLI_BDMG,DRW_2]
+        NB.drw_2 = function() {
+        drawBl01(NB);
+        }
 }
 
 
-function GEN_NPC(st,x,y){
+        Array_push(NB)
+
+        ////// "" conponents 
+    }
+}
+
+
+
+
+}
+
+function GEN_NPC_old(st,x,y){
 
     let col = takecolor()
 
@@ -701,4 +731,139 @@ function Set_spead(NB,max,acc){
     max*=acc
     NB.frict = -1/(max+1)+1
     NB.spead = 1/acc
+}
+
+
+function GEN_NPC(x,y){
+
+    let col = takecolor()
+    let Bu = Bbuild_covertor()
+
+    NB = {}
+
+    NB.mouse = {x:x,y:y,shoot:1,shoot2:1,ability:1}
+
+    let team = BUTT_1.team.val == 0 ? BUTT_1.color.val.hue + BUTT_1.color.val.red + BUTT_1.color.val.blc : BUTT_1.team.ran*Math.random() + BUTT_1.team.val
+
+    NB.team = team
+    NB.color = col.color
+    NB.bor_col = col.bor_col
+
+    NB.pos = new Vec(x,y)
+    NB.vel = new Vec(0,0.03)
+    NB.elast = 0.1
+    NB.hard = 0.3
+    NB.slide = 0.04
+    NB.stk = 0.1
+    NB.rotation = Math.random() * 12
+    NB.owner = NB;
+
+        NB.r = 25
+        NB.m = 25
+        NB.inv_m = 1 / NB.m
+        Get_bor_s(NB)
+
+
+    
+    NB.frict = Bu.accel
+    NB.spead = Bu.spead*(1-Bu.accel)
+
+    
+    NB.fov = Bu.fov
+    NB.maxhp = Bu.healt
+    NB.dmg = Bu.body_dmg
+
+
+    NB.hp = NB.maxhp * 0.8
+    NB.age = 0
+    NB.rank = 1
+    NB.relat = {
+        bou: 1,
+        ing: 0,
+        bou_0: 1,
+        ing_0: 0,
+        bou_1: 1,
+        ing_1: 0,
+    }
+    NB.DIE = DIE_3
+    NB.DIE_anim = DIE_anim01
+    NB.arrays = [COLLI_BDMG, REPOS, KILLABLE]
+    Array_push(NB)
+
+    NB.child = [];
+    
+   new hp_diplay(NB)
+   new cl_name(NB, F_get_randomname())
+   new hp_regen(NB, Bu.regen)
+
+
+    let calhp = Math.floor(Bu.body_dmg)
+    if (calhp > 0 && false) {
+        new cl_spike(NB, calhp + 1, 300, 1, 0.9, 0.8, true)
+    }
+
+
+
+
+    //firepower distribution based on reload .- hp and dmg determine firepower, reload distribute it on bolth 2
+    let invrelhalf = (1/Bu.reload)**0.5
+
+    new cl_body(NB)
+    { // weapon
+        let size = Bu.b_size
+        let wp = {
+            reload: Bu.reload,
+            recoil: 0,
+            bl_n: 1,
+            bl_sn: 1,
+            internal_setup: gun_0_setup,
+            setup_stats: {
+                r: 0.5,
+                rel_rot_max: 0.5
+            }
+        };
+        let bl_st = {
+            frict: Bu.b_range, ///////------------
+            r: size,
+            m: 1,
+            inv_m: 1 / 1,
+            hard: 0.1,
+            elast: 0.1,
+            slide: 0,
+            stk: 0.1,
+            maxage: Bu.b_time,
+            hp: Bu.bullet_hp*invrelhalf,
+            dmg: Bu.bullet_dmg*invrelhalf,
+            arrays: [KILLABLE, DRW_2, COLLI_BDMG, REPOS],
+            ran_rot: Bu.precision, // precisiona in radianti da da 0 a 2PI
+            ran_vel: Bu.b_shoot*(1-Bu.b_spe_ran), // addizione di velocita
+            rel_rot: 0,
+            rel_vel: Bu.b_shoot*Bu.b_spe_ran,  // consigliato minimo 2 e massimo 30
+            relat:{
+                bou: 1,//0 = don't do //1 = do //-1 = don't do even if other do 2= do even if other is -1
+                ing: 0,// on equal ranks es: 2  other minion 
+                bou_0: 1,
+                ing_0: 1,// on superior ranks es: 1 players
+                bou_1: 1,
+                ing_1: 0,// on inferior ranks es: 3 bullets    // cannot ingore differents team
+            }
+        }
+        let gun = new gun0(NB, bl_st, wp)
+        let AI = new cl_AI(NB,gun)
+        AI.fov = Bu.fov
+        AI.combact_range = Math.min((Bu.b_shoot * (Bu.b_range**2) * (Bu.b_time**0.8))/(1+Bu.precision), AI.fov);
+
+        let n = Math.floor((Math.random()**2)*20-10)*0 + 1 // inactive !!!!!!!!!!
+        for (let l = 1; l < n; l++) {
+
+            bl_st.rel_rot += P2/n
+            new gun0(NB, bl_st, wp)
+        }
+    }
+    let Spick = Math.floor(Bu.healt)
+    if (Spick > 2 && false) {
+        new cl_spike(NB, Spick)
+    }
+
+    return NB
 }

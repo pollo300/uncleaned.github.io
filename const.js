@@ -64,8 +64,9 @@ function Get_bor_s(a){
     a.bor_s = Math.log2(a.r + 1.2)/2
 } //a.bor_s = Math.log2(a.r + 1) / 2
 
-const WG_x = 32768
-const WG_y = 32768
+const MODES = ["r_1vs1","arenasize"];
+const WG_x = 0
+const WG_y = 0
 const maxagents = 0
 let COPYPASTE
 
@@ -91,6 +92,87 @@ const COLLI_BDMG = [];
 const COL_EFFECT = [];
 //alive
 const KILLABLE = [];
+
+const BU = { // build
+    fov: 0.5,
+    spead: 0.5,
+    accel: 0.5,
+    regen: 0.5,
+    healt: 0.5,
+    body_dmg: 0.5,
+    bullet_hp: 0.5,
+    bullet_dmg: 0.5,
+    reload: 0.5,
+    b_shoot: 0.5,
+    b_range: 0.5,
+    b_time: 0.5,
+    precision:0.5,
+    b_spe_ran: 0.5,
+    b_size: 0.5,
+}
+const BU_ranges = {
+    fov: {min:1200,max:3200,exp:0.7},
+
+    spead: {min:3,max:8,exp:1},
+    accel: {min:0.98,max:0.85,exp:0.5},
+
+    regen: {min:0.0015,max:0.04,exp:0.3},
+    healt: {min:80,max:120,exp:1.5},
+    body_dmg: {min:2,max:3,exp:1.5},
+
+    bullet_hp: {min:0.04,max:12,exp:1.8},
+    bullet_dmg: {min:0.001,max:0.3,exp:1.8},       // with 1.5 is quite linear 2 5/5 tank are defeated by a 10/10 tank
+    reload: {min:0.002,max:0.2,exp:0.3},
+
+    b_shoot: {min:4,max:30,exp:1},
+    b_range: {min:0.8,max:1,exp:8},
+    b_time: {min:12,max:700,exp:0.3},
+
+    precision: {min:3,max:0,exp:3},
+    b_spe_ran: {min:0.2,max:1,exp:2},
+    b_size: {min:0.05,max:1.4,exp:0.6},
+}
+function Bbuild_covertor(){
+    //normalize
+    let finalstats = {}
+    let count = 0
+for (const key in BU) { // make an object and count the value
+    if (Object.prototype.hasOwnProperty.call(BU, key)) {
+        count += BU[key];
+        finalstats[key] = BU[key];
+            
+    }
+}
+
+let norm = 6/count
+if(count <= 0) {norm = 0}
+for (const key in finalstats) {
+    if (Object.prototype.hasOwnProperty.call(finalstats, key)) {
+        //finalstats[key] *= norm;  // make the sum of all resulting in 6 and the single 0,5
+    }
+}
+
+
+
+for (const key in finalstats) {
+        if (Object.prototype.hasOwnProperty.call(finalstats, key)) {
+
+            let range = BU_ranges[key].max - BU_ranges[key].min
+
+            finalstats[key] = (finalstats[key]**(1/BU_ranges[key].exp) )*range + BU_ranges[key].min;  
+            
+            
+            // make the sum of all resulting in 6
+        }
+}
+
+
+return finalstats
+}
+
+let camera = { x: WG_x, y: WG_y, zoom: (window.innerWidth+window.innerHeight)/1800, rotation: 0, dx: 0, dy: 0 ,fov:1800};
+let mousePos = { x: 0, y: 0 ,old_x:0,old_y:0};
+let mouseClient = { x: 0, y: 0 };
 
 class Vec {
     constructor(x, y) {
@@ -420,3 +502,64 @@ class RGBA {
         }
     }
 }
+class Build_tank {
+    constructor() {
+        this.fov = 1;
+
+        this.spead = 1;
+        this.acceleration = 1;
+
+        this.regen = 1;
+        this.hp = 1;
+        this.body_dmg = 1;
+
+        this.regen = 1;
+        this.hp = 1;
+        this.body_dmg = 1;
+
+
+        this.Upd();
+    }
+}
+
+
+function Start_Duel(){
+        let oldc = BUTT_1.color.val2
+        let olbdc = BUTT_1.bor_col.val2
+
+        let pos = new Vec(WG_x,WG_y)
+        pos.x +=500
+        pos._rotate(Math.random())
+
+        BUTT_1.color.val2 = new RGBA(244, 155, 5)
+        BUTT_1.bor_col.val2 = new RGBA(50, 0, 0, 1)
+        let c = GEN_NPC(pos.x, pos.y)
+        c.team = 435345532
+
+        pos._rotate(Math.PI)
+
+        BUTT_1.color.val2 = new RGBA(44, 155, 255)
+        BUTT_1.bor_col.val2 = new RGBA(0, 0, 60, 1)
+        let c2 = GEN_NPC(pos.x, pos.y)
+        c2.team = 4243968
+
+
+        let Build = Bbuild_covertor()
+        camera.zoom = (canvas.width+canvas.height)/Build.fov;
+        camera.fov = Build.fov;
+        THE_PLAYER = Math.random()<0.5? c2 : c
+
+
+        for (let i = 0; i < THE_PLAYER.child.length; i++) {
+        const e = THE_PLAYER.child[i];
+        if (e.target) e.DIE() // kill the ai
+        }
+
+
+        BUTT_1.color.val2 = oldc
+        BUTT_1.bor_col.val2 = olbdc
+
+        return [c,c2]
+}
+
+var THE_PLAYER = {}

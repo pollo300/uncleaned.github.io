@@ -9,7 +9,7 @@ function SEE_V(v, c) {
 function SEE_L(v, v2, c = 'red') {
     SEE_Lv.push({ a: v, b: v2, c: c })
 }
-function SEE_T(v,t, c = '#fff') {
+function SEE_T(v, t, c = '#fff') {
     SEE_Tv.push({ a: v, b: t, c: c })
 }
 var SEE_X = [];
@@ -51,8 +51,9 @@ function DIE_01() {
         this.died_time = 0;
         this.died_time++
         if (this.died_time < 10) return
-    DELETED.push(this)
-}}
+        DELETED.push(this)
+    }
+}
 
 
 function DIE_1() {
@@ -114,33 +115,33 @@ function drawB01(b) {
     ctx.arc(b.pos.x, b.pos.y, b.r, 0, 2 * Math.PI);
     ctx.fillStyle = b.color.c;
     ctx.strokeStyle = b.bor_col.c;
-    ctx.lineWidth = b.bor_s 
+    ctx.lineWidth = b.bor_s
     ctx.fill();
     ctx.stroke();
     ctx.closePath();
 }
 function drawBl01(b) {
 
-if (!b.died_time) {
-        let ratio =   0.5*(b.maxage - b.age) / b.maxage  +0.5 - 0.5*((b.maxhp - b.hp) / b.maxhp)
-        
-        let ratio2 = Math.min(b.r/b.pos.dist(b.pos_o),1)
-    
-        b.color.a = ratio*ratio2
+    if (!b.died_time) {
+        let ratio = 0.5 * (b.maxage - b.age) / b.maxage + 0.5 - 0.5 * ((b.maxhp - b.hp) / b.maxhp)
+
+        let ratio2 = Math.min(b.r / b.pos.dist(b.pos_o), 1)
+
+        b.color.a = ratio * ratio2
         b.bor_col.a = ratio
         b.color.Upd()
         b.bor_col.Upd()
-}
+    }
 
-    ctx.lineCap='round'
+    ctx.lineCap = 'round'
     ctx.beginPath();
-    ctx.lineWidth = b.r*2
+    ctx.lineWidth = b.r * 2
     ctx.strokeStyle = b.color.c
     ctx.lineTo(b.pos.x, b.pos.y)
     ctx.lineTo(b.pos_o.x, b.pos_o.y)
     ctx.stroke();
     ctx.closePath();
-    ctx.lineCap='butt'
+    ctx.lineCap = 'butt'
 
     ctx.beginPath();
     ctx.arc(b.pos.x, b.pos.y, b.r, 0, P2);
@@ -166,10 +167,10 @@ function D_anim(k) {
     }
 }
 class Action_0 {
-    constructor(x, y,action = function (o) {},r = 25) {
+    constructor(x, y, action = function (o) { }, r = 25) {
         this.pos = new Vec(x, y);
         this.vel = new Vec(0, 0);
-        this.r = r/ camera.zoom;
+        this.r = r / camera.zoom;
         this.id
         this.owner
         this.type
@@ -191,13 +192,13 @@ class Action_0 {
 
         let r = this.r
         let pos = this.pos
-        let f = function(XX){
-        if((XX.r+r)**2 < XX.pos.distSq(pos))return false
-        return true
+        let f = function (XX) {
+            if ((XX.r + r) ** 2 < XX.pos.distSq(pos)) return false
+            return true
         }
-        
-        let finded = Force_find(COLLI_B,f)
-        finded.forEach((f)=>{this.c_act(f)})
+
+        let finded = Force_find(COLLI_B, f)
+        finded.forEach((f) => { this.c_act(f) })
 
     }
     drw_3() {
@@ -211,10 +212,10 @@ class Action_0 {
         ctx.closePath();
     }
 }
-function Force_find(ARRAY = COLLI_BDMG,Condiction_fun = function(x){ if (x = this) return false}) {
+function Force_find(ARRAY = COLLI_BDMG, Condiction_fun = function (x) { if (x = this) return false }) {
     RETU = [];
     ARRAY.forEach((obj) => {
-        if(Condiction_fun(obj)){
+        if (Condiction_fun(obj)) {
             RETU.push(obj)
         }
     });
@@ -364,16 +365,16 @@ function DELETE(obj) {
     if (obj.child) for (let i = obj.child.length - 1; i > -1; i--) {
         DELETE(obj.child[i])
     }
-    if (obj.arrays) for (let i = obj.arrays.length-1; i >= 0 ; i--) {
+    if (obj.arrays) for (let i = obj.arrays.length - 1; i >= 0; i--) {
         const arr = obj.arrays[i];
         let index = arr.indexOf(obj);
         if (index > -1) {
-            if(arr.KeepOrder_){
-            arr.splice(index, 1); // Remove the object if found
-            } else{
-            arr[index] = arr[arr.length-1]
-            arr.length --
-        }
+            if (arr.KeepOrder_) {
+                arr.splice(index, 1); // Remove the object if found
+            } else {
+                arr[index] = arr[arr.length - 1]
+                arr.length--
+            }
         }
     }
 
@@ -490,7 +491,7 @@ function drawBall(b) {
     ctx.arc(b.pos.x, b.pos.y, b.r, 0, 2 * Math.PI);
     ctx.fillStyle = b.color;
     ctx.strokeStyle = b.bor_col;
-    ctx.lineWidth = b.bor_s 
+    ctx.lineWidth = b.bor_s
     ctx.fill();
     ctx.stroke();
     ctx.closePath();
@@ -499,20 +500,20 @@ function drawBlt(b) {
 
 
     let ratio = (1 - ((b.maxhp - b.hp) / b.maxhp) + ((b.maxage - b.age) / b.maxage))
-    b.r/(b.pos_o.dist(b.pos));
+    b.r / (b.pos_o.dist(b.pos));
 
 
 
-    let ratio2 = Math.min(b.r/b.pos.dist(b.pos_o),1)
-    ctx.lineCap='round'
+    let ratio2 = Math.min(b.r / b.pos.dist(b.pos_o), 1)
+    ctx.lineCap = 'round'
     ctx.beginPath();
-    ctx.lineWidth = b.r*2
-    ctx.strokeStyle = rgba_mult(b.color, 1, 1, 1, ratio*ratio2);
+    ctx.lineWidth = b.r * 2
+    ctx.strokeStyle = rgba_mult(b.color, 1, 1, 1, ratio * ratio2);
     ctx.lineTo(b.pos.x, b.pos.y)
     ctx.lineTo(b.pos_o.x, b.pos_o.y)
     ctx.stroke();
     ctx.closePath();
-    ctx.lineCap='butt'
+    ctx.lineCap = 'butt'
 
     ctx.beginPath();
     ctx.arc(b.pos.x, b.pos.y, b.r, 0, P2);
@@ -648,7 +649,7 @@ function Complete_collision(b1, b2) {
     let approachSpeed = Vec.dot(trajectory, normal);
 
     // if they are too far to collide return
-    if ((radiusSum + approachSpeed)**2 < (centerDist.x)**2 +(centerDist.y)**2)return
+    if ((radiusSum + approachSpeed) ** 2 < (centerDist.x) ** 2 + (centerDist.y) ** 2) return
 
     // Quadratic equation coefficients for time of impact (TOI)
     let a = trajectory.magSq();
@@ -719,16 +720,19 @@ function Complete_collision_DMG(b1, b2) {
     let normal = centerDist.unit();
     let approachSpeed = Vec.dot(trajectory, normal);
     // if they are too far to collide return
-    let a = trajectory.magSq();
-    if ((radiusSum + a)**2 < (centerDist.x)**2 +(centerDist.y)**2)return
+    let t_mag = trajectory.mag()     //let a = //trajectory.magSq();
+
+    if ((radiusSum + t_mag) ** 2 < (centerDist.x) ** 2 + (centerDist.y) ** 2) return
     // SEE_T({x:b1.pos.x,y:b1.pos.y+60},'2')// Quadratic equation coefficients for time of impact (TOI)
 
+    let a = t_mag ** 2
     let b = 2 * Vec.dot(centerDist, trajectory);
     let c = centerDist.magSq() - radiusSum * radiusSum;
     let Delt = - 4 * a * c
     let discriminant = b * b + Delt;
 
     if (discriminant < 0) return; // stop the function if ball trajectory don't intersect
+    //if(Delt>0) significa che le palle vanno nella stessa direzione 
 
     // SEE_T({x:b1.pos.x,y:b1.pos.y+90},'3')//**Step 2: Penetration Resolution**
     let weit1 = (1 / (b1.inv_m + b2.inv_m)) * b1.inv_m
@@ -737,51 +741,58 @@ function Complete_collision_DMG(b1, b2) {
     let pen_depth = radiusSum - centerDist.mag();
     let pen_res = normal.mult(pen_depth * Math.sign(Delt));
 
-    let hardness = Math.min(b2.hard , b1.hard)
-    let slidness = b2.slide + b1.slide
-
+    let hardness = Math.min(b2.hard, b1.hard)
     b1.pos._add(pen_res.mult(-weit1 * hardness));
     b2.pos._add(pen_res.mult(weit2 * hardness));
+
+
+    let slidness = b2.slide + b1.slide
     b1.vel._add(pen_res.mult(-weit1 * slidness));
     b2.vel._add(pen_res.mult(weit2 * slidness));
 
     // **Step 3: Collision Resolution**
     if (dmg) {  // are onject enemy? do they damnge?
 
-        const dmg_multipler = Math.max(approachSpeed,pen_depth/radiusSum,0)
-        let n1 =  b1.hp - b2.dmg*dmg_multipler
-        let n2 =  b2.hp - b1.dmg*dmg_multipler
+        const dmg_multipler = Math.max(approachSpeed, pen_depth / radiusSum, 0)
+        let n1 = b1.hp - b2.dmg * dmg_multipler
+        let n2 = b2.hp - b1.dmg * dmg_multipler
 
-        let mult = b1.dmg/b2.dmg
-        let t1 = n1*mult
-        let t2 = n2/mult
+        let mult = b1.dmg / b2.dmg
+        let t1 = n1 * mult
+        let t2 = n2 / mult
 
-        if(t2<0) n1 -= t2
-        if(t1<0) n2 -= t1
+        if (t2 < 0) n1 -= t2
+        if (t1 < 0) n2 -= t1
 
         b1.hp = n1
         b2.hp = n2
 
-        let or = n1>n2? [b2,b1] : [b1,b2]
-        if(b1.score == undefined) b1.score = 1
-        if(b2.score == undefined) b2.score = 1
-        if(or[0].hp<0){
-            or[1].score+= or[0].score
-            or[0].score = 0
-        }
-        SEE_T(or[1].pos,or[1].score)
-        SEE_T(or[0].pos,or[0].score)
-        if(false){
-            const dmg_multipler = Math.max(approachSpeed,pen_depth/radiusSum,0)
-            let n1 =  b1.hp*b1.dmg - b2.dmg*dmg_multipler
-            let n2 =  b2.hp*b2.dmg - b1.dmg*dmg_multipler
-    
+        let or = n1 > n2 ? [b2, b1] : [b1, b2]
+
+        if (false) {
+
+            if (b1.score == undefined) b1.score = 1
+            if (b2.score == undefined) b2.score = 1
+            if (or[0].hp < 0) {
+                or[1].score += or[0].score
+                or[0].score = 0
+            }
+            SEE_T(or[1].pos, or[1].score)
+            SEE_T(or[0].pos, or[0].score) // score?
+
+
+
+
+            const dmg_multipler = Math.max(approachSpeed, pen_depth / radiusSum, 0)
+            let n1 = b1.hp * b1.dmg - b2.dmg * dmg_multipler
+            let n2 = b2.hp * b2.dmg - b1.dmg * dmg_multipler
+
             let t2 = n2
-            if(n1<0) n2 -= n1
-            if(n2<0) n1 -= t2
-    
-            b1.hp = n1/b1.dmg
-            b2.hp = n2/b2.dmg
+            if (n1 < 0) n2 -= n1
+            if (n2 < 0) n1 -= t2
+
+            b1.hp = n1 / b1.dmg
+            b2.hp = n2 / b2.dmg
         }
     }
     if (b1.rank == b2.rank) {
@@ -794,20 +805,31 @@ function Complete_collision_DMG(b1, b2) {
     if (bounce <= 0) { return }//return; // object relation is : only penetration
     //return
 
-    let v_mult = approachSpeed * b1.elast * b2.elast
+    let conserv = b1.elast * b2.elast
+    let v_mult = approachSpeed * (b1.elast + b2.elast)
     let impulseVec1 = normal.mult(v_mult * -weit1)
     let impulseVec2 = normal.mult(v_mult * weit2)
+
+    //b1.vel._add(impulseVec1);
+    //b2.vel._add(impulseVec2);
+
+
+    //b1.vel = impulseVec1
+    //b2.vel = impulseVec2
+
     b1.vel._add(impulseVec1);
     b2.vel._add(impulseVec2);
+    //let new_dir = b1.vel.mult(weit2).add(b2.vel.mult(weit1))
 
+    // return
     let stikn = Math.max(b1.stk, b1.stk)
-    let istik = (1-stikn)
+    let istik = (1 - stikn)
     let totalX = b1.vel.x * weit1 + b2.vel.x * weit2
     let totalY = b1.vel.y * weit1 + b2.vel.y * weit2
-    b1.vel.x = totalX*stikn + istik*b1.vel.x
-    b1.vel.y = totalY*stikn + istik*b1.vel.y
-    b2.vel.x = totalX*stikn + istik*b2.vel.x
-    b2.vel.y = totalY*stikn + istik*b2.vel.y
+    b1.vel.x = totalX * stikn + istik * b1.vel.x
+    b1.vel.y = totalY * stikn + istik * b1.vel.y
+    b2.vel.x = totalX * stikn + istik * b2.vel.x
+    b2.vel.y = totalY * stikn + istik * b2.vel.y
 }
 
 ////////////////77 use old pos instead of future pos in collision calculations 
@@ -1444,7 +1466,7 @@ function get_point1(p1, p2, p3, p4) {
     const seg2 = t1 >= 0 && t1 <= 1; // Intersection is on the second segment // oltrepassa la linea
 
     // Always return the intersection point of the lines, but flag no segment intersection
-    SEE_V(intersection,"#000")
+    SEE_V(intersection, "#000")
     return { intersection, A: seg1, B: seg2 };
 }
 function closestPointsOnSegments(a0, a1, b0, b1, c1 = true, c2 = true, c3 = true, c4 = true) {
@@ -1579,16 +1601,14 @@ function Coll_res(R, b) {
 
 }
 
-
-
-
+console.log(THE_PLAYER)
 function WG_o_rand_gun(NB, is_turret = false) {
     let BL_HP = S_ran(50)
     let BL_ranDir = (S_ran())
     let BL_DMG = S_ran(2) + 0.01
     let BL_AGE = S_ran(600)
     let BL_COUNT = 1 + Math.trunc(5 * S_ran(1) ** 5)
-    let BL_RELOAD = (S_ran(150) + 3)/1000
+    let BL_RELOAD = (S_ran(150) + 3) / 1000
     let BL_ranVel = (S_ran(60))
     let BL_SPEE = S_ran(30)
     let b_size = 1 / 8 + S_ran(0.4)
@@ -1602,13 +1622,13 @@ function WG_o_rand_gun(NB, is_turret = false) {
         FREPOWER = BL_DMG * BL_HP * BL_RELOAD
         Perform_cost = (BL_AGE * 0.2) * (BL_RELOAD)
     }
-1
+    1
 
     let wp = {
         reload: BL_RELOAD,
         recoil: 90,
         bl_n: BL_COUNT,
-        bl_sn: BL_COUNT*20,
+        bl_sn: BL_COUNT * 20,
         internal_setup: is_turret ? gun_0t_setup : gun_0_setup,
         setup_stats: {
             r: 0.5,
@@ -1634,7 +1654,7 @@ function WG_o_rand_gun(NB, is_turret = false) {
         ran_vel: BL_ranVel,
         rel_rot: rel_rot,
         rel_vel: BL_SPEE,
-        relat:{
+        relat: {
             bou: 1,//0 = don't do //1 = do //-1 = don't do even if other do 2= do even if other is -1
             ing: 0,// on equal ranks es: 2  other minion 
             bou_0: 1,
@@ -1647,52 +1667,60 @@ function WG_o_rand_gun(NB, is_turret = false) {
     return new gun0(NB, bl, wp)
 }
 function WG_PLAYER() {
-   // if (!COLLI_BDMG[0].maxhp) return
-    THE_PLAYER = COLLI_BDMG[0]
+    if (!COLLI_BDMG[0] || !COLLI_BDMG[0].maxhp) {
+        THE_PLAYER = new Ball()
+        //  THE_PLAYER.x = 0
+        // THE_PLAYER.y = 0
+        THE_PLAYER.mouse = {}
+        //THE_PLAYER.hp = -1
 
-    //DELETED.push(THE_PLAYER.child[0])
+    }
+    else {
+        THE_PLAYER = COLLI_BDMG[0]
+
+        //DELETED.push(THE_PLAYER.child[0])
 
 
-    THE_PLAYER.hp = THE_PLAYER.maxhp
-    if (!THE_PLAYER.spead) THE_PLAYER.spead = 4
+        THE_PLAYER.hp = THE_PLAYER.maxhp
+        if (!THE_PLAYER.spead) THE_PLAYER.spead = 4
 
-    camera.zoom = THE_PLAYER.fov ?? 1 / 3
+        camera.zoom = THE_PLAYER.fov ?? 1 / 3
 
-    if(!THE_PLAYER.mouse) THE_PLAYER.mouse = {x:THE_PLAYER.pos.x,y:THE_PLAYER.pos.x}
-    let old_act = THE_PLAYER.act
-    THE_PLAYER.act = function () {
-        old_act.call(THE_PLAYER)
-        let sound = this.old_hp - this.hp
-        if (sound > 0) {
-            let aud = new Audio('rammig.mp3');
-            aud.volume = Math.min(1, sound / this.maxhp * 3 + 0.001);
-            //aud.play();
+        if (!THE_PLAYER.mouse) THE_PLAYER.mouse = { x: THE_PLAYER.pos.x, y: THE_PLAYER.pos.x }
+        let old_act = THE_PLAYER.act
+        THE_PLAYER.act = function () {
+            old_act.call(THE_PLAYER)
+            let sound = this.old_hp - this.hp
+            if (sound > 0) {
+                let aud = new Audio('rammig.mp3');
+                aud.volume = Math.min(1, sound / this.maxhp * 3 + 0.001);
+                //aud.play();
+            }
+            this.old_hp = this.hp
         }
-        this.old_hp = this.hp
-    }
 
-    for (let i = 0; i < THE_PLAYER.child.length; i++) {
-        const e = THE_PLAYER.child[i];
-        if (e.target) e.DIE()
+        for (let i = 0; i < THE_PLAYER.child.length; i++) {
+            const e = THE_PLAYER.child[i];
+            if (e.target) e.DIE()
+        }
     }
-
 
     //   let group = new Group();
     //   group.addBall(NB);
     //group.addBall(newBal2);
 }
 let WG_MEGAMOUNTAIN_c = S_ran(111) + 33
-function WG_MEGAMOUNTAIN(count = 142,Size = 1000,spread = 19001) {
+function WG_MEGAMOUNTAIN(count = 142, Size = 1000, spread = 19001) {
     let lum = WG_MEGAMOUNTAIN_c
 
     for (let i = 0; i < count; i++) {
 
 
-        let ci = i/count
+        let ci = i / count
 
         let dist = spread
-        let vecp = new Vec(dist,0)
-        vecp._rotate(P2*ci)
+        let vecp = new Vec(dist, 0)
+        vecp._rotate(P2 * ci)
         let Gsx = vecp.x
         let Gsy = vecp.y
 
@@ -1702,7 +1730,7 @@ function WG_MEGAMOUNTAIN(count = 142,Size = 1000,spread = 19001) {
         NB.pos_o.x = Gsx + WG_x
         NB.pos_o.y = Gsy + WG_y
         NB.r = Size
-        NB.m = Size * Size * 333333/ 152;
+        NB.m = Size * Size * 333333 / 152;
         NB.inv_m = 1 / NB.m
         NB.elast = 0.2;
 
@@ -1712,7 +1740,7 @@ function WG_MEGAMOUNTAIN(count = 142,Size = 1000,spread = 19001) {
         NB.stk = 0
         NB.frict = 0.8;
 
-        NB.color = new RGBA(lum,lum,lum)
+        NB.color = new RGBA(lum, lum, lum)
         NB.bor_col = NB.color.lig(-0.5)
 
 
@@ -1755,14 +1783,14 @@ function WG_Poly(number, spread) {
 
 
     for (let i = 0; i < number; i++) {
-        if(i == Math.round(number/3)){
+        if (i == Math.round(number / 3)) {
             gl1 = S_ran(255)
             gl3 = S_ran(255)
             gl2 = S_ran(255)
             rand3 = S_ran()
-            rscale2 = S_ran(20) - 10  
+            rscale2 = S_ran(20) - 10
         }
-        let vecp = new Vec((1-(S_ran(1)))*spread,0)
+        let vecp = new Vec((1 - (S_ran(1))) * spread, 0)
         vecp._rotate(S_ran(P2))
         let Gsx = vecp.x
         let Gsy = vecp.y
@@ -1801,7 +1829,7 @@ function WG_Poly(number, spread) {
             NB.bor_col = new RGBA(gl1 - rscale2 * S_ran(14), gl2 - rscale2 * S_ran(14), gl3 - rscale2 * S_ran(14), 0.5)
             NB.vel.x = 0.03
             NB.hard = rand6
-            NB.frict = 1-rand5
+            NB.frict = 1 - rand5
             NB.slide = rand7
             NB.stk = rand8
             NB.vel.x = distx / 12
@@ -1874,7 +1902,7 @@ function WG_Poly(number, spread) {
 
             NB.rotation = 0
             //new cl_body(NB)
-            
+
             Get_bor_s(NB)
             F_act_setup_growth(NB)
         }
@@ -1888,7 +1916,7 @@ function WG_Enemy3(number, spread, number2, spread2,) {
 
         let size = 10 + S_ran(20) //+ (S_ran(1) ** 76) * 900
 
-        let vecp = new Vec(S_ran(1)*spread,0)
+        let vecp = new Vec(S_ran(1) * spread, 0)
         vecp._rotate(S_ran(P2))
         let Gsx = vecp.x
         let Gsy = vecp.y
@@ -1965,7 +1993,7 @@ function WG_Enemy3(number, spread, number2, spread2,) {
             new cl_body(NB)
 
             let gun = WG_o_rand_gun(NB)
-            new cl_AI(NB,gun)
+            new cl_AI(NB, gun)
 
             let Dmg_ = Math.floor(S_ran(13 + 20)) - 20
             if (Dmg_ > 2) {
@@ -2028,7 +2056,7 @@ function WG_Enemy3(number, spread, number2, spread2,) {
 
 
 
-// World generation function with depth and alignment control
+// World generation function with depth and alignment control - and gamerules
 function WG_WALLS_OLD(depth = 1) {
 
     let borde1 = 6000
@@ -2073,44 +2101,114 @@ function WG_WALLS() {
 }
 function WG_WORLD() { }
 
+function Game_mode_rule() {
+}
+
+if (true) {
+    let duel_guys = [1, 2];
+    let timer = 90
+    Game_mode_rule = function () {
+
+        if (!(duel_guys[1].hp > 0) || !(duel_guys[0].hp > 0)) { timer += 1 
+           if (timer % 20 == 0) {
+            if(duel_guys[1].hp > 0) {new cl_chat(duel_guys[1])}
+            if(duel_guys[0].hp > 0) {new cl_chat(duel_guys[0])}
+           }
+        }
+        if (timer < 100) return
+        let old = THEME[0]
+        THEME.splice(0,1)
+        THEME.sort((a,b) => b.probability*Math.random() - a.probability*Math.random())
+        THEME.push(old)
+
+        timer = 0
+        duel_guys[0].hp = -20
+        duel_guys[1].hp = -20
+        for (const key in BU) { // make an object and count the value
+            if (Object.prototype.hasOwnProperty.call(BU, key)) {
+                BU[key] = 1 - Math.random() ** 1;
+
+            }
+        }
+        duel_guys = Start_Duel()
+
+    }
+
+}
+if (true) {
+
+    let siz = 1011
+    let sizSq = siz**2
+    let center = new Vec(0,0)
+
+    var drawborder = {}
+    drawborder.drw_1 = function(){
+    ctx.beginPath()
+    ctx.fillStyle = "#22222211"
+    ctx.arc(center.x,center.y,siz,0,P2,true)
+    ctx.arc(center.x,center.y,siz*2,0,P2*8)
+    ctx.fill()
+    ctx.closePath()
+    }
+    DRW_1.push(drawborder)
+
+    let old = Game_mode_rule
+    Game_mode_rule = function () {
+    old()
+
+    REPOS.forEach(b => {
+        const distsq = center.distSq(b.pos)
+        //if (distsq>sizSq) {b.pos= center}
+
+        if (distsq>sizSq) {
+            b.vel._add(center.sub(b.pos).unit().mult((distsq-sizSq)**0.25*0.02))
+        } //1/(distsq-sizSq)
+
+
+        if (false) {
+            if(b.pos.x >= siz) b.vel.x -=1
+            if(b.pos.y >= siz) b.vel.y -=1
+            if(b.pos.x <= -siz) b.vel.x +=1
+            if(b.pos.y <= -siz) b.vel.y +=1
+        }
+    });}
+}
+
 //////////////////////////////////////////////////////////// pre function
 let frameCount = 0;
-
-
 const rtr0dmg = rbush();
 const rtr1bal = rbush();
 
 function insertColliders() {
-    const CO_0= [];
+    const CO_0 = [];
     COLLI_BDMG.forEach((obj) => {
-            obj.a0 = true;  // ensure onject calculate collisions 1 time,
-            CO_0.push(getMBR(obj));
-        });
+        obj.a0 = true;  // ensure onject calculate collisions 1 time,
+        CO_0.push(getMBR(obj));
+    });
     rtr0dmg.load(CO_0);
 
     return
-    const CO_B= [];
+    const CO_B = [];
     COLLI_B.forEach((obj) => {
-            CO_B.push(getMBR(obj));
-        });
+        CO_B.push(getMBR(obj));
+    });
     rtr1bal.load(CO_B);
 }
-
-function Collider_sort(coll,funct){
+function Collider_sort(coll, funct) {
     coll.sort((a, b) => a.pos.x - b.pos.x)
     for (let i = 0; i < coll.length; i++) {
         let j2 = 0
         for (let i2 = 1; i2 < 2; i2++) {
             j2++
             if (coll[i + j2]) {
-                let sum = coll[i].r+coll[i+j2].r
+                let sum = coll[i].r + coll[i + j2].r
                 if (
                     coll[i + j2].pos.x - coll[i].pos.x < sum
                 ) {
                     ///////////////////
-                    if(Math.abs(coll[i + j2].pos.y - coll[i].pos.y) < sum) {funct(coll[i], coll[i + j2])}
+                    if (Math.abs(coll[i + j2].pos.y - coll[i].pos.y) < sum) { funct(coll[i], coll[i + j2]) }
                     ///////////////////
-                i2--
+                    i2--
                 }
             }
         }
@@ -2118,19 +2216,19 @@ function Collider_sort(coll,funct){
         for (let i2 = 1; i2 < 2; i2++) {
             j2++
             if (coll[i - j2]) {
-                let sum = coll[i].r + coll[i-j2].r
+                let sum = coll[i].r + coll[i - j2].r
                 if (coll[i - j2] &&
                     coll[i].pos.x - coll[i - j2].pos.x < sum
                 ) {
                     ///////////////////
-                    if(Math.abs(coll[i].pos.y - coll[i-j2].pos.y) < sum) funct(coll[i], coll[i-j2])
+                    if (Math.abs(coll[i].pos.y - coll[i - j2].pos.y) < sum) funct(coll[i], coll[i - j2])
                     ///////////////////
-                i2--
+                    i2--
                 }
             }
         }
     }
-return
+    return
 
 }
 function Collider_sort2(coll, funct) {
@@ -2163,187 +2261,182 @@ function Collider_sort2(coll, funct) {
 
 
 
-
-
-
-
-
-class Function_generator{
-    constructor(){
+class Function_generator {
+    constructor() {
         this.n = {};
         this.existing = []; // actives operator names (string) with array order
         this.defualts = [];
-    
-    
-        for (let i = 0; i < 15; i++){
+
+
+        for (let i = 0; i < 15; i++) {
             this.gen_NE()
         }
         this.assing(4)
         console.log(this)
     }
-        gen_NE(){
-            let name = namegen()
-            let value = (Math.random()-0.5)*2
-            let NE = {val:value,ogv:value,to:[]}
-    
-            let oper =random_oper()
-            NE.f = function f(){
-                for (let i = 0; i < NE.to.length; i++) {
-                    NE.to[i].val = oper(NE.val , NE.to[i].val)
-                }
-            }
-    
-            this.n[name] = NE
-            this.existing.push(name)
-    
-        }
-        assing(amount){
-            let l = this.existing.length
-            for (let i = 0; i < l; i++) {
-    
-                for (let j = 0; j < amount; j++) {
-                    let rand = Math.trunc(l * Math.random());
-                    this.n[this.existing[i]].to.push(this.n[this.existing[rand]])
-                }
-            }
-        }
-        calc(){
-            for (let i = 0; i < this.existing.length; i++) {
-                console.log(this.n[this.existing[i]])
-                this.n[this.existing[i]].f()
-            }
-        }
-        clean(){
-            for (let i = 0; i < this.existing.length; i++) {
-                this.n[this.existing[i]].val = this.n[this.existing[i]].ogv
-            }         
-        }
-        mutate(){
-            for (let i = 0; i < this.existing.length; i++) {
-                let NE = this.n[this.existing[i]]
+    gen_NE() {
+        let name = namegen()
+        let value = (Math.random() - 0.5) * 2
+        let NE = { val: value, ogv: value, to: [] }
 
-                if (Math.random()<0.3) {
-                    NE.ogv +=(Math.random()-0.5)/32
-                }
+        let oper = random_oper()
+        NE.f = function f() {
+            for (let i = 0; i < NE.to.length; i++) {
+                NE.to[i].val = oper(NE.val, NE.to[i].val)
+            }
+        }
 
-                if (Math.random()<0.05) {
-                    let oper =random_oper()
-                    NE.f = function f(){
-                        for (let i = 0; i < NE.to.length; i++) {
-                            NE.to[i].val = oper(NE.val , NE.to[i].val)
-                        }
+        this.n[name] = NE
+        this.existing.push(name)
+
+    }
+    assing(amount) {
+        let l = this.existing.length
+        for (let i = 0; i < l; i++) {
+
+            for (let j = 0; j < amount; j++) {
+                let rand = Math.trunc(l * Math.random());
+                this.n[this.existing[i]].to.push(this.n[this.existing[rand]])
+            }
+        }
+    }
+    calc() {
+        for (let i = 0; i < this.existing.length; i++) {
+            console.log(this.n[this.existing[i]])
+            this.n[this.existing[i]].f()
+        }
+    }
+    clean() {
+        for (let i = 0; i < this.existing.length; i++) {
+            this.n[this.existing[i]].val = this.n[this.existing[i]].ogv
+        }
+    }
+    mutate() {
+        for (let i = 0; i < this.existing.length; i++) {
+            let NE = this.n[this.existing[i]]
+
+            if (Math.random() < 0.3) {
+                NE.ogv += (Math.random() - 0.5) / 32
+            }
+
+            if (Math.random() < 0.05) {
+                let oper = random_oper()
+                NE.f = function f() {
+                    for (let i = 0; i < NE.to.length; i++) {
+                        NE.to[i].val = oper(NE.val, NE.to[i].val)
                     }
                 }
-                if (Math.random()<0.05) {
-                    let l = this.existing.length
-                    let rand = Math.trunc(l*Math.random());
+            }
+            if (Math.random() < 0.05) {
+                let l = this.existing.length
+                let rand = Math.trunc(l * Math.random());
 
-                    if(Math.random()<0.5 && NE[1]){
-                        NE.splice(0,1)
-                    }
-                    NE.to.push(this.n[this.existing[rand]])
+                if (Math.random() < 0.5 && NE[1]) {
+                    NE.splice(0, 1)
                 }
-            }// general mutation
-            //calc order mutation
-            // add mutation
-            // removal mutation
-        }
+                NE.to.push(this.n[this.existing[rand]])
+            }
+        }// general mutation
+        //calc order mutation
+        // add mutation
+        // removal mutation
     }
-    function random_oper(){
-    
+}
+function random_oper() {
 
-        max = function (n0,n){return Math.max(n,n0)}
-        min = function (n0,n){return Math.min(n,n0)}
-        add = function (n0,n){return n+n0}
-        neg = function (n0,n){return -n-n0}
-        mult = function (n0,n){
-            return a = n*n0
-        }
-        mid = function (n0,n){return (n+n0)/2}
-        exp = function (n0,n){
-            let a = Math.abs(n)**n0
-            return a==Infinity||a==NaN ?0:a*Math.sign(n)
-        }
-        exp_to = function (n0,n){
-            let a =  Math.abs(n0)**n
-            return a==Infinity||a==NaN ?0:a*Math.sign(n)
-        }
-        sin = function (n0,n){return Math.sin(n+n0)}
-    
-        const operations = [
-            neg,
-            add,
-            mid,
-            mult,
-            max,
-            min,
-            sin,
-            exp,
-            exp_to,
-        ]
-        let rn = Math.trunc((Math.random())*operations.length)
-        return operations[rn]
+
+    max = function (n0, n) { return Math.max(n, n0) }
+    min = function (n0, n) { return Math.min(n, n0) }
+    add = function (n0, n) { return n + n0 }
+    neg = function (n0, n) { return -n - n0 }
+    mult = function (n0, n) {
+        return a = n * n0
     }
-    function namegen(){
-        var color = 'a';
-            color += [Math.round((1+Math.random())*1000)];
-            color = '_'+color.slice(2);
-        return color;
+    mid = function (n0, n) { return (n + n0) / 2 }
+    exp = function (n0, n) {
+        let a = Math.abs(n) ** n0
+        return a == Infinity || a == NaN ? 0 : a * Math.sign(n)
     }
+    exp_to = function (n0, n) {
+        let a = Math.abs(n0) ** n
+        return a == Infinity || a == NaN ? 0 : a * Math.sign(n)
+    }
+    sin = function (n0, n) { return Math.sin(n + n0) }
+
+    const operations = [
+        neg,
+        add,
+        mid,
+        mult,
+        max,
+        min,
+        sin,
+        exp,
+        exp_to,
+    ]
+    let rn = Math.trunc((Math.random()) * operations.length)
+    return operations[rn]
+}
+function namegen() {
+    var color = 'a';
+    color += [Math.round((1 + Math.random()) * 1000)];
+    color = '_' + color.slice(2);
+    return color;
+}
 ///////////////////////////////////////////////////////////
 
-class Group_rigid{
-    constructor(collider){
-     this.child = [];
-     collider.forEach((c)=>{
-        this.child.push(c)
-        c.arrays.push(this.child)
-        c.owner = this
-     })
-     this.rotation = 0
-     this.rot_vel = 0
-     this.get_masscenter() // this.pos //this.m
-     this.get_relpos() /// create special vectors where z is distance
-     this.get_vel()
-     this.arrays = [ACT1];
-     ACT1.push(this)
+class Group_rigid {
+    constructor(collider) {
+        this.child = [];
+        collider.forEach((c) => {
+            this.child.push(c)
+            c.arrays.push(this.child)
+            c.owner = this
+        })
+        this.rotation = 0
+        this.rot_vel = 0
+        this.get_masscenter() // this.pos //this.m
+        this.get_relpos() /// create special vectors where z is distance
+        this.get_vel()
+        this.arrays = [ACT1];
+        ACT1.push(this)
     }
-    get_masscenter(){
-        let sum = new Vec(0,0)
+    get_masscenter() {
+        let sum = new Vec(0, 0)
         this.m = 0
         for (let i = 0; i < this.child.length; i++) {
             const c = this.child[i]
             this.m += c.m;
 
-            sum.x += c.m*c.pos.x;
-            sum.y += c.m*c.pos.y;
+            sum.x += c.m * c.pos.x;
+            sum.y += c.m * c.pos.y;
         }
-        this.pos = sum.mult(1/this.m)
+        this.pos = sum.mult(1 / this.m)
     }
-    get_relpos(){
+    get_relpos() {
         for (let i = 0; i < this.child.length; i++) {
             this.child[i].g_rel_pos = this.child[i].pos.sub(this.pos)
             this.child[i].g_rel_pos.z = this.child[i].g_rel_pos.dist(this.pos) // move this from here to inside the
         }
     }
-    get_vel(){
-        let sum = new Vec(0,0)
+    get_vel() {
+        let sum = new Vec(0, 0)
         for (let i = 0; i < this.child.length; i++) {
             sum._add(this.child[i].vel.mult(this.child[i].m))
         }
-        this.vel = sum.mult(1/this.m)
+        this.vel = sum.mult(1 / this.m)
 
 
         for (let i = 0; i < this.child.length; i++) {
             let ro = this.child[i].pos.sub(this.pos).normal()
             let ggf = ro.cross(this.child[i].vel)
-            SEE_T(this.child[i].pos,(ggf.x))
-            SEE_T(this.child[i].pos.add(new Vec(0,-33)),(ggf.y))
+            SEE_T(this.child[i].pos, (ggf.x))
+            SEE_T(this.child[i].pos.add(new Vec(0, -33)), (ggf.y))
         }
     }
     //// get rotations
     /// repos the group
-    repos(){
+    repos() {
         this.pos._add(this.vel)
         this.rotation += this.rot_vel
         console.log(this)
@@ -2352,14 +2445,14 @@ class Group_rigid{
             this.child[i].vel.mult(this.child[i].frict)
         }
     }
-    act1(){
-    this.get_vel()
-    this.repos()
+    act1() {
+        this.get_vel()
+        this.repos()
     }
 }
-function ASA(){
-new Group_rigid(REPOS)
-REPOS.length = 0
+function ASA() {
+    new Group_rigid(REPOS)
+    REPOS.length = 0
 }
 
 
@@ -2370,19 +2463,22 @@ REPOS.length = 0
 
 
 
-/////////////////////////////////////////////////////////////
-let sizewwq = 2190
-WG_MEGAMOUNTAIN(6,sizewwq*0.2,sizewwq*0.5)
-WG_MEGAMOUNTAIN(12,sizewwq*0.05,sizewwq*0.60)
-WG_MEGAMOUNTAIN(24,sizewwq*0.06,sizewwq*0.8)
-WG_MEGAMOUNTAIN(6,sizewwq*0.09,sizewwq*0.70)
-WG_MEGAMOUNTAIN(12,sizewwq*0.08,sizewwq*0.91)
-WG_MEGAMOUNTAIN(60,sizewwq*0.08,sizewwq)
+///////////////////////////////////////////////////////////// world generation
+if (false) {
+    let sizewwq = 2190
+    WG_MEGAMOUNTAIN(6, sizewwq * 0.2, sizewwq * 0.5)
+    WG_MEGAMOUNTAIN(12, sizewwq * 0.05, sizewwq * 0.60)
+    WG_MEGAMOUNTAIN(24, sizewwq * 0.06, sizewwq * 0.8)
+    WG_MEGAMOUNTAIN(6, sizewwq * 0.09, sizewwq * 0.70)
+    WG_MEGAMOUNTAIN(12, sizewwq * 0.08, sizewwq * 0.91)
+    WG_MEGAMOUNTAIN(60, sizewwq * 0.08, sizewwq)
+    //WG_Enemy3(7, 4271, 4, 33)
+    WG_Poly(64, sizewwq * 0.8)
+    WG_PLAYER()
+}
+//WG_Poly(64, 2190 * 0.8)
 
-//WG_Enemy3(7, 4271, 4, 33)
-WG_Poly(64, sizewwq*0.8)
-WG_PLAYER()
-
+THE_PLAYER = new Ball(); THE_PLAYER.mouse = {}
 for (let i = 0; i < DELETED.length; i++) {
     DELETED[i] == null
     DELETE(DELETED[i])
@@ -2392,17 +2488,18 @@ DELETED.splice(0, DELETED.length)
 function mainLoop() {
     frameCount++;
     MovePlayer();
+    Game_mode_rule();
     /////// object creation spawning
     //if(COLLI_BDMG.length<560){WG_Poly(1, sizewwq*0.8)}
     ///////////////
-    ACT0.forEach(b => {b.act0()});
+    ACT0.forEach(b => { b.act0() });
     insertColliders() /// this function do't affect acts need to be before repos?
     REPOS.forEach(b => {
-        b.pos_o = new Vec(b.pos.x,b.pos.y)
-        b.vel = b.vel.mult(b.frict);
+        b.pos_o = new Vec(b.pos.x, b.pos.y)
         b.pos = b.pos.add(b.vel);
+        b.vel = b.vel.mult(b.frict);
     });
-    ACT1.forEach(b => {b.act1()});
+    ACT1.forEach(b => { b.act1() });
     //////////////////////////////////////
     COLLI_BDMG.forEach(b => {
         if (b.vel.x == 0 && b.vel.y == 0) return;
@@ -2420,7 +2517,7 @@ function mainLoop() {
             Complete_collision(b, cand.object)
         });
     });
-    ACT.forEach(b => {b.act()});
+    ACT.forEach(b => { b.act() });
     ///////////////// kills management
     for (let i = 0; i < KILLABLE.length; i++) {
         const k = KILLABLE[i];
@@ -2430,7 +2527,7 @@ function mainLoop() {
         }
     }
     ///////////////// last function before draw
-    ACT_.forEach(b => {b.act_();});
+    ACT_.forEach(b => { b.act_(); });
     ///////////////// drawing
     Camera();
     Background_a();
@@ -2482,7 +2579,7 @@ function mainLoop() {
         ctx.lineWidth = 3
         ctx.strokeStyle = '#000'
         ctx.fillStyle = v.c
-        ctx.font = `bold ${15/camera.zoom}px Arial`;
+        ctx.font = `bold ${15 / camera.zoom}px Arial`;
         ctx.textAlign = "center";
         ctx.strokeText(v.b, v.a.x, v.a.y);
         ctx.fillText(v.b, v.a.x, v.a.y);
@@ -2500,13 +2597,13 @@ requestAnimationFrame(mainLoop)
 
 
 // un used
-if(false){
+if (false) {
     class bx {
-        constructor(b){
-            this.bx = b.pos.x + Math.max(b.vel.x,0)
-            this.by = b.pos.y + Math.max(b.vel.y,0)
-            this.sx = b.pos.x + Math.min(b.vel.x,0)
-            this.sy = b.pos.y + Math.min(b.vel.y,0)
+        constructor(b) {
+            this.bx = b.pos.x + Math.max(b.vel.x, 0)
+            this.by = b.pos.y + Math.max(b.vel.y, 0)
+            this.sx = b.pos.x + Math.min(b.vel.x, 0)
+            this.sy = b.pos.y + Math.min(b.vel.y, 0)
             this.o = b
         }
     }
@@ -2518,62 +2615,62 @@ if(false){
     });
     const ttb_res = [];
     class ttb {
-        constructor(array,size,idk){
+        constructor(array, size, idk) {
             this.size = size // size is only positive, are the object who are traslet to positive cordinates  before calculkation to simplify
             this.array = array
-            if(this.array.length>1) {this.split()} // if there is more than one obj split
+            if (this.array.length > 1) { this.split() } // if there is more than one obj split
         }
-        split(){
+        split() {
             const a = [];
             const b = [];
             for (let i = 0; i < this.array.length; i++) {
-                if(this.array[i].bx > this.size){a.push(this.array[i])} else {b.push(this.array[i])}
+                if (this.array[i].bx > this.size) { a.push(this.array[i]) } else { b.push(this.array[i]) }
             } // included in a array
-    
+
             for (let i = 0; i < this.b.length; i++) {
-                if(this.b[i].bx > this.size){a.push(this.b[i])}
+                if (this.b[i].bx > this.size) { a.push(this.b[i]) }
             } //included b in a array allowing a array to skip 1 check
-    
-    
-            if(a.length+b.length == 2*this.array.length) {return} // there is at lest 2 object and they overlap in this axis
-            this.a = new ttb(a, this.size+this.size/2)
-            this.b = new ttb(b, this.size/2)
+
+
+            if (a.length + b.length == 2 * this.array.length) { return } // there is at lest 2 object and they overlap in this axis
+            this.a = new ttb(a, this.size + this.size / 2)
+            this.b = new ttb(b, this.size / 2)
         }
     }
-    function object_based_grild_collision_detection_test4(array = COLLI_BDMG,CELL_SIZE = 16) {
+    function object_based_grild_collision_detection_test4(array = COLLI_BDMG, CELL_SIZE = 16) {
         const base = {}; // The grid with only occupied cells to save memory
-    
+
         for (let i = 0; i < array.length; i++) {
             const collider = array[i];
-    
+
             // Compute grid cell indices
             let X = Math.round(collider.pos.x / CELL_SIZE);
             let Y = Math.round(collider.pos.y / CELL_SIZE);
             let X2 = X + 1;
             let Y2 = Y + 1;
-    
+
             ctx.beginPath()
             ctx.fillStyle = "rgba(0, 0, 0, 0.01)"
-            ctx.rect(X*CELL_SIZE,Y*CELL_SIZE,CELL_SIZE,CELL_SIZE)
-            ctx.rect(X*CELL_SIZE,Y*CELL_SIZE,-CELL_SIZE,-CELL_SIZE)
+            ctx.rect(X * CELL_SIZE, Y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+            ctx.rect(X * CELL_SIZE, Y * CELL_SIZE, -CELL_SIZE, -CELL_SIZE)
             ctx.fill()
             ctx.fillStyle = "rgba(96, 0, 221, 0.01)"
-            ctx.rect(X*CELL_SIZE,Y*CELL_SIZE,CELL_SIZE,-CELL_SIZE)
-            ctx.rect(X*CELL_SIZE,Y*CELL_SIZE,-CELL_SIZE,CELL_SIZE)
+            ctx.rect(X * CELL_SIZE, Y * CELL_SIZE, CELL_SIZE, -CELL_SIZE)
+            ctx.rect(X * CELL_SIZE, Y * CELL_SIZE, -CELL_SIZE, CELL_SIZE)
             ctx.fill()
             ctx.closePath();
-    
+
             // Define grid keys
             let keys = [`a${X}a${Y}`, `a${X2}a${Y}`, `a${X}a${Y2}`, `a${X2}a${Y2}`];
-    
-    
+
+
             keys.forEach(key => {
-                if (!base[key]) {base[key] = [collider]}
-                else{
+                if (!base[key]) { base[key] = [collider] }
+                else {
                     base[key].push(collider)
                 }
             });
-    
+
             // Check for existing collisions
             if (false) {
                 let existingCollider = keys.map(key => base[key]).find(c => c);
@@ -2581,10 +2678,10 @@ if(false){
                     // No collision; occupy cells
                     keys.forEach(key => base[key] = [collider]);
                 } else {
-    
+
                     let coll = [];
-    
-    
+
+
                     if (base[keys[0]]) {
                         coll.push(base[keys[0]]);
                     }
@@ -2600,17 +2697,18 @@ if(false){
                     coll.push(collider);
                     keys.forEach(key => base[key] = collider);
                     collisions.push(coll)
-    
+
                 }
             }
         }
         // Process collisions
         for (k in base) {
-            if(base[k].length>1){
-                    for (let j = 0; j < base[k].length; j++) {
-                        for (let i = 0; i < base[k].length; i++) {
-                            SEE_L(base[k][i].pos,base[k][j].pos,"rgba(3, 250, 217, 0.09)")
-                        }}
+            if (base[k].length > 1) {
+                for (let j = 0; j < base[k].length; j++) {
+                    for (let i = 0; i < base[k].length; i++) {
+                        SEE_L(base[k][i].pos, base[k][j].pos, "rgba(3, 250, 217, 0.09)")
+                    }
+                }
             }
         }
     }
@@ -2619,7 +2717,7 @@ if(false){
         MovePlayer();
         /////// object creation
         REPOS.forEach(b => {
-            b.pos_o = new Vec(b.pos.x,b.pos.y);
+            b.pos_o = new Vec(b.pos.x, b.pos.y);
             b.vel = b.vel.mult(b.frict) //.rotate(-0.5+Math.random());
             b.pos = b.pos.add(b.vel);
         });
@@ -2635,15 +2733,17 @@ if(false){
         Camera();
         THE_PLAYER.rotation = Get_rotation(mousePos.x, mousePos.y, THE_PLAYER)
         object_based_grild_collision_detection_test4()
-        if (true){    for (let i = DRW_1.length - 1; i > -1; i -= 1) {
-            DRW_1[i].drw_1()
+        if (true) {
+            for (let i = DRW_1.length - 1; i > -1; i -= 1) {
+                DRW_1[i].drw_1()
+            }
+            for (let i = DRW_2.length - 1; i > -1; i -= 1) {
+                DRW_2[i].drw_2()
+            }
+            for (let i = DRW_3.length - 1; i > -1; i -= 1) {
+                DRW_3[i].drw_3()
+            }
         }
-        for (let i = DRW_2.length - 1; i > -1; i -= 1) {
-            DRW_2[i].drw_2()
-        }
-        for (let i = DRW_3.length - 1; i > -1; i -= 1) {
-            DRW_3[i].drw_3()
-        }}
         //////////// Last functions
         for (let i = 0; i < DELETED.length; i++) {
             DELETED[i] == null
@@ -2658,8 +2758,8 @@ if(false){
                 drawStar(b.x, b.y, 9, 3 / camera.zoom * S, 2 / camera.zoom * S, b.c, b.c);
                 return new Vec(b.x, b.y)
             }
-    
-    
+
+
             drawStar(b.x, b.y, 9, 3 / camera.zoom * S, 2 / camera.zoom * S, getRandomColor() + 92, getRandomColor() + 91)
             return new Vec(b.x, b.y)
         });
